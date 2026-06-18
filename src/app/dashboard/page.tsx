@@ -1,12 +1,14 @@
-import "dotenv/config"
+import "dotenv/config";
 import { EmailView } from "@/components/email-list/email-view";
 import type { EmailThread } from "@/lib/validations";
 
 export default async function Page() {
   let emails: EmailThread[] = [];
 
+  const appUrl = process.env.APP_URL ?? `https://${process.env.VERCEL_URL}`;
+
   try {
-    const response = await fetch(`${process.env.APP_URL}/api/email`, {
+    const response = await fetch(`${appUrl}/api/email`, {
       method: "GET",
       cache: "no-store",
     });

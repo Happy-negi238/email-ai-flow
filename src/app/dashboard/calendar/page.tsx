@@ -14,8 +14,11 @@ type CalendarEvent = {
 };
 
 export default async function Calendar() {
+  const appUrl =
+  process.env.APP_URL ??
+  `https://${process.env.VERCEL_URL}`;
 
-  const res = await fetch(`${process.env.APP_URL}/api/calendar`, {
+  const res = await fetch(`${appUrl}/api/calendar`, {
     method: "GET",
     cache: "no-cache",
   });

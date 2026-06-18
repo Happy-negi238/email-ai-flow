@@ -77,24 +77,3 @@ export async function GET() {
     );
   }
 }
-export async function DELETE(id: string) {
-  try {
-    if (!id) {
-      return NextResponse.json({
-        status: 400,
-        message: "ID is not found",
-      });
-    }
-
-    await corsair.withTenant("dev").gmail.api.messages.delete({
-      id: id,
-    });
-
-    return NextResponse.json({
-      status: 200,
-      message: "Email delete successfully",
-    });
-  } catch (error) {
-    console.log(error);
-  }
-}

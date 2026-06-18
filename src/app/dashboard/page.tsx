@@ -1,3 +1,4 @@
+import "dotenv/config"
 import { EmailView } from "@/components/email-list/email-view";
 import type { EmailThread } from "@/lib/validations";
 
@@ -5,7 +6,7 @@ export default async function Page() {
   let emails: EmailThread[] = [];
 
   try {
-    const response = await fetch("http://localhost:3000/api/email", {
+    const response = await fetch(`${process.env.APP_URL}/api/email`, {
       method: "GET",
       cache: "no-store",
     });

@@ -15,7 +15,7 @@ type CalendarEvent = {
 
 export default async function Calendar() {
 
-  const res = await fetch("http://localhost:3000/api/calendar", {
+  const res = await fetch(`${process.env.APP_URL}/api/calendar`, {
     method: "GET",
     cache: "no-cache",
   });

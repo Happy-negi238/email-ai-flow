@@ -24,7 +24,7 @@ export default async function Calendar() {
   });
 
   const result = await res.json();
-  const events: CalendarEvent[] = result.data || [];
+  const events: CalendarEvent[] = result.data ?? [];
 
   return (
     <div className="p-6">

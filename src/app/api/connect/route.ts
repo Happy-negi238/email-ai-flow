@@ -1,6 +1,6 @@
 import { auth } from "@clerk/nextjs/server";
 import { generateOAuthUrl } from "corsair/oauth";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { corsair } from "@/server/corsair";
 
 const REDIRECT_URI = `${process.env.APP_URL}/api/auth`;

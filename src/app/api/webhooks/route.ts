@@ -1,9 +1,9 @@
 import { corsair } from "@/server/corsair";
 import { processWebhook } from "corsair";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
-  const url = new URL(request.url);
+  // const url = new URL(request.url);
 
   // 1. Capture Request Headers
   const headers: Record<string, string> = {};
@@ -16,7 +16,9 @@ export async function POST(request: NextRequest) {
   // We MUST ignore this to avoid running sync operations on empty handshake calls.
   const googleResourceState = headers["x-goog-resource-state"];
   if (googleResourceState === "sync") {
-    console.info("Received Google Calendar handshake validation. Acknowledging safely.");
+    console.info(
+      "Received Google Calendar handshake validation. Acknowledging safely.",
+    );
     return new NextResponse("Sync Acknowledged", { status: 200 });
   }
 
@@ -32,13 +34,16 @@ export async function POST(request: NextRequest) {
     }
   } catch (err) {
     console.error("Failed to parse webhook body:", err);
-    return NextResponse.json({ success: false, error: "Invalid body format" }, { status: 200 }); // Return 200 to prevent retry loops
+    return NextResponse.json(
+      { success: false, error: "Invalid body format" },
+      { status: 200 },
+    ); // Return 200 to prevent retry loops
   }
 
   // 4. Process the webhook using Corsair middleware
   const tenantId = "dev";
   const result = await processWebhook(corsair, headers, body, { tenantId });
-  
+
   console.info("Plugin processed trigger:", result.plugin, result.action);
 
   // 5. Setup outgoing headers
@@ -55,10 +60,15 @@ export async function POST(request: NextRequest) {
   // If Corsair triggers on pings, sync timers, or metadata updates, we bail out early.
   const allowedActions = ["event.created", "booking.created", "event.set"];
   if (result.action && !allowedActions.includes(result.action)) {
-    console.info(`Skipping DB entry. Action '${result.action}' is not an event creation event.`);
+    console.info(
+      `Skipping DB entry. Action '${result.action}' is not an event creation event.`,
+    );
     return NextResponse.json(
-      { success: true, message: `Skipped DB operations for action: ${result.action}` },
-      { headers: nextHeaders, status: 200 }
+      {
+        success: true,
+        message: `Skipped DB operations for action: ${result.action}`,
+      },
+      { headers: nextHeaders, status: 200 },
     );
   }
 

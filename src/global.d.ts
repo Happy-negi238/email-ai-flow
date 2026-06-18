@@ -1,9 +1,9 @@
 declare module "*.css" {
-  const content: {};
+  const content: object;
   export default content;
 }
 
 declare module "*.css?*" {
-  const content: {};
+  const content: object;
   export default content;
 }

@@ -15,7 +15,7 @@ export default async function Page() {
 
     if (response.ok) {
       const result = await response.json();
-      emails = result.data || [];
+      emails = result.data ?? [];
     }
   } catch (error) {
     console.error("Failed to fetch emails:", error);

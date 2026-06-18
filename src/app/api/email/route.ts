@@ -1,9 +1,8 @@
 import { corsair } from "@/server/corsair";
-import {
-  EmailListResponseSchema,
-  type EmailListResponse,
-} from "@/lib/validations";
 import { NextResponse } from "next/server";
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -14,7 +13,6 @@ const corsHeaders = {
 export async function OPTIONS() {
   return NextResponse.json({}, { headers: corsHeaders });
 }
-
 export async function GET() {
   try {
     const response = await corsair.withTenant("dev").gmail.db.messages.list({});
@@ -26,7 +24,7 @@ export async function GET() {
           message: "No emails found",
           data: [],
         },
-        { headers: corsHeaders }
+        { headers: corsHeaders },
       );
     }
 
@@ -36,11 +34,11 @@ export async function GET() {
       const from = email.from ?? "";
 
       const senderName =
-        from.match(/^(.*?)\s*</)?.[1]?.trim() ||
-        from.split("@")[0] ||
+        from.match(/^(.*?)\s*</)?.[1]?.trim() ??
+        from.split("@")[0] ??
         "Unknown";
 
-      const senderEmail = from.match(/<(.+?)>/)?.[1] || from;
+      const senderEmail = from.match(/<(.+?)>/)?.[1] ?? from;
 
       return {
         id: mail.id,
@@ -62,7 +60,7 @@ export async function GET() {
         message: "Emails fetched successfully",
         data: emails,
       },
-      { headers: corsHeaders }
+      { headers: corsHeaders },
     );
   } catch (error) {
     console.error("Error fetching emails:", error);
@@ -73,7 +71,7 @@ export async function GET() {
         message: "Internal server error",
         data: null,
       },
-      { headers: corsHeaders }
+      { headers: corsHeaders },
     );
   }
 }

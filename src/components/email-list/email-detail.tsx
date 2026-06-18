@@ -1,5 +1,3 @@
-import DOMPurify from 'isomorphic-dompurify';
-import Script from 'next/script';
 
 import type { EmailThread } from "@/lib/validations";
 
@@ -15,8 +13,6 @@ export function EmailDetail({
       </div>
     );
   }
-
-  const cleanHtml = DOMPurify.sanitize(email.body!);
 
   return (
     <div className="flex-1 overflow-y-auto p-6">
